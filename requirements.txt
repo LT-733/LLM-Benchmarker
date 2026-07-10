@@ -3,3 +3,4 @@ scikit-learn
 matplotlib
 huggingface
 sentence-transformers
+dotenv

@@ -4,6 +4,7 @@ from sentence_transformers import SentenceTransformer, SimilarityFunction
 import torch
 import clustering
 import matplotlib.pyplot as plt
+import get_outputs
 
 device = "cuda" if torch.cuda.is_available() else ("mps" if torch.mps.is_available() else "cpu")
 print(f"using {device} as performance accelerator")
@@ -14,40 +15,8 @@ tokenizer = transformers.AutoTokenizer.from_pretrained("sentence-transformers/al
 model = model.to(device=device)
 # tokenizer = tokenizer.to(device=device)
 
-text_outputs: list[dict] = [
-    # --- CLUSTER A: High-Accuracy / Semantically Identical ---
-    {
-        "model": "model_alpha_accurate",
-        "text": "The capital recovery factor determines the equal annual payments needed to pay back an initial investment value over a set timeframe and interest rate."
-    },
-    {
-        "model": "model_beta_accurate",
-        "text": "To find the uniform series of end-of-period cash flows necessary to recover a principal investment cost over n periods at i interest, you use the capital recovery factor."
-    },
-    
-    # --- MODERATELY CLOSE: Right domain, slightly drifting concept ---
-    {
-        "model": "model_gamma_partial",
-        "text": "Capital recovery involves calculating annualized values for investments, ensuring that the initial capital put into a project is fully recovered over its economic life."
-    },
-
-    # --- CLUSTER B: Coherent but Completely Wrong (Different Economic Concept) ---
-    {
-        "model": "model_delta_wrong",
-        "text": "The Internal Rate of Return is the specific discount rate that makes the net present value of all cash flows from a particular project equal to zero."
-    },
-    {
-        "model": "model_epsilon_wrong",
-        "text": "Net Present Value is calculated by subtracting the initial investment costs from the total present value of incoming cash flows over a given period."
-    },
-
-    # --- THE OUTLIER: Total System Failure / Crash Garbage ---
-    {
-        "model": "model_zeta_broken",
-        "text": "Error 502: Bad Gateway. Connection timed out while requesting stream from OpenRouter upstream provider upstream_id_0x4f12a."
-    }
-]
-baseline_ans: str = "The Capital Recovery Factor is used to calculate the uniform series of end-of-period payments required to recover an initial capital investment over a specified number of periods at a given interest rate."
+text_outputs: list[dict] = get_outputs.get_chat_content()
+baseline_ans: str = "In computer science, a linked list is a linear collection of data elements whose order is not given by their physical placement in memory. Instead, each element points to the next. It is a data structure consisting of a collection of nodes which together represent a sequence. In its most basic form, each node contains data, and a reference (in other words, a link) to the next node in the sequence. This structure allows for efficient insertion or removal of elements from any position in the sequence during iteration."
 
 def get_semantic_drift(tst_model, given_tokenizer, outputs: list[dict], ans: str):
     activation_storage: dict = {}
@@ -84,13 +53,14 @@ def get_semantic_drift(tst_model, given_tokenizer, outputs: list[dict], ans: str
         else:
             data = data.squeeze(0)
             data = torch.nn.functional.normalize(data)
-            final = data @ activation_storage["answer"].T
+            # final = (data @ activation_storage["answer"].T).max(dim=0, keepdim=True)[0]
+            final = (data @ activation_storage["answer"].T)
             final = final.tolist()
             final_drifts.append((name, final))
-    fig, axs = plt.subplots(ncols=len(final_drifts), sharey=True, layout="constrained", nrows=1, squeeze=False)
+    fig, axs = plt.subplots(ncols=len(final_drifts), layout="constrained", nrows=1, squeeze=False, figsize=(len(final_drifts)*3.0, 2.5))
     fig.suptitle(f"Semantic Drift From the Baseline Answer of {len(final_drifts)} Models")
     for i in range(len(final_drifts)):
-        axs[0, i].imshow(final_drifts[i][1], cmap="viridis", vmin=0.7, vmax=1.0, aspect="equal")
+        axs[0, i].imshow(final_drifts[i][1], cmap="viridis", vmin=0.7, vmax=1.0, aspect="auto")
         axs[0, i].set_title(final_drifts[i][0])
         axs[0, i].set_xlabel("Response")
         if i == 0:
