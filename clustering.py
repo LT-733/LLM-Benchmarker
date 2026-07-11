@@ -29,9 +29,12 @@ def cluster_result(final):
     grid_transform = manifold.MDS(n_components=2, dissimilarity="precomputed")
     grid_data = grid_transform.fit_transform(final)
     labels = cluster_tool.fit_predict(final)
-    plot = plt.scatter(grid_data[:, 0], grid_data[:, 1], c=labels)
-    return plot
+    # plot = plt.scatter(grid_data[:, 0], grid_data[:, 1], c=labels)
+    # return plot
+    return grid_data, labels
 
+# Testing function, will not be used in production
 if __name__ == "__main__":
-    result = cluster_result(dummy)
+    result, labels = cluster_result(dummy)
+    plot = plt.scatter(result[:, 0], result[:, 1], c=labels)
     plt.show()
