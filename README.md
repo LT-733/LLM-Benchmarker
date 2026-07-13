@@ -7,7 +7,7 @@ The whole reason this is called main is because when I used pyinstaller the defa
 Mainly to prove the fact that I know more than just writing PyTorch wrappers, but its practical purpose is for people to test out dirt cheap language models, and use a bit of linear algebra to figure out which one is the best for them. 
 
 Most people who are not software engineers don't care about what Fable 5 is capable of and what loop engineering did to ruin some other framework's codebase. 
-They just want the maximum amount of information for the least amount of tokens. The more cost-effective, the better. I tried to desin this in a more un-technical way, and make the UI as simple as possible, but there are things I can still work on.
+They just want the maximum amount of information for the least amount of tokens. The more cost-effective, the better. I tried to design this in a more un-technical way, and make the UI as simple as possible, but there are things I can still work on. I will make fixes as I go, and feel free to give me feedbacks! (Yeah as if anyone is using this desktop app.)
 
 ## So how do I use it?
 The first thing to know is that this is an LLM benchmarker. So it will use LLMs. I needed some form of LLM provider that does not cost money. There are a few options, but the one with the most variaty has to be [openrouter.ai](https://openrouter.ai/). The caveat is that it doesn't support Google LLMs such as gemini and Google Gemma, but maybe I will add another API route to Google's own AI studio. But that also means another API key will be needed from the users. 
