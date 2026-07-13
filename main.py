@@ -102,4 +102,4 @@ if __name__ == "__main__":
         entry_point = 'http://localhost:5173'
 
     webview.create_window(title="Benchmark", js_api=anything, url=entry_point, width=1200, height=800)
-    webview.start(debug=not getattr(sys, 'frozen', False))
+    webview.start(debug=not getattr(sys, 'frozen', False), icon="frontend/src/assets/icon.svg")

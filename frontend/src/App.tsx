@@ -271,10 +271,11 @@ function App() {
       </div>
 
       <div className="flex flex-1 overflow-hidden">
-        <div className={`w-80 border-r ${theme === 'dark' ? 'border-slate-800 bg-slate-950' : 'border-slate-200 bg-slate-50'} p-6 flex flex-col gap-6 overflow-y-auto`}>
+        <div className={`w-100 border-r ${theme === 'dark' ? 'border-slate-800 bg-slate-950' : 'border-slate-200 bg-slate-50'} p-6 flex flex-col gap-6 overflow-y-auto`}>
           <div>
-            <h1 className={`text-xl font-bold tracking-tight ${theme === 'dark' ? 'text-white' : 'text-slate-950'}`}>Model Benchmarker</h1>
-            <p className="text-xs text-slate-400 mt-1">Find out which model is the most effective</p>
+            <h1 className={`text-xl font-bold tracking-tight ${theme === 'dark' ? 'text-white' : 'text-slate-950'}`}>Welcome to Model Assistant Inference Network (MAIN)</h1>
+            <p className="text-xs text-slate-500 mt-1">Find out which model is the most effective! </p>
+            <p className='text-xs text-yellow-600 mt-1'>This service sends your request to openrouter.ai, keep in mind that some free models will use your requests to train themselves.</p>
           </div>
           
           <div className="flex flex-col gap-1.5">
@@ -384,7 +385,7 @@ function App() {
               {!pipelineData ? (
                 <div className={`flex-1 flex flex-col items-center justify-center border border-dashed ${theme === 'dark' ? 'border-slate-800' : 'border-slate-300'} rounded-lg p-12 text-center`}>
                   <p className="text-slate-400 text-sm">
-                    {loading ? "Awaiting hardware output tensors from python bridge..." : "Select activation target models and execute the pipeline layer configuration."}
+                    {loading ? "Awaiting hardware output tensors from python bridge..." : "Setup your benchmark and run it! For how to test your models and what to look out for, check the Documentation page."}
                   </p>
                 </div>
               ) : (
@@ -433,8 +434,8 @@ function App() {
                     className={`w-full p-2.5 rounded ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} text-sm font-mono focus:outline-none focus:border-blue-500`}
                     placeholder="sk-or-v1-..."
                   />
-                  <p className="text-xs text-slate-500 mt-1">
-                    Keys are stored locally in application runtime memory and passed securely to the local python execution stack.
+                  <p className="text-xs text-green-500 mt-1">
+                    Keys are stored locally in application runtime memory and passed securely to the local python execution stack. No developers or malicious bots from the internet can access your key. Get your key from openrouter.ai if you don't have one yet!
                   </p>
                   <button className='w-full py-2 px-4 rounded bg-blue-600 hover:bg-blue-700 text-sm font-medium text-white mt-3 transition-colors'
                     onClick={setAPIKey}
@@ -449,8 +450,8 @@ function App() {
           {activeTab === "docs" && (
             <div className="flex flex-col gap-4 max-w-3xl">
               <div>
-                <h2 className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-950'}`}>System Documentation</h2>
-                <p className="text-sm text-slate-400 mt-1">Information regarding multi-dimensional scaling computations and agglomerative grouping metrics.</p>
+                <h2 className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-950'}`}>Documentation</h2>
+                <p className="text-sm text-slate-400 mt-1">This software is still in Beta, what do you expect? Come back soon, the docs will be ready in a bit. </p>
               </div>
             </div>
           )}

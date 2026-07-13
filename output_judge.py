@@ -68,7 +68,7 @@ def get_semantic_drift(device, tst_model, given_tokenizer, outputs: list[dict], 
         for candidate in outputs:
             curmodel = candidate["model"]
             hook = target_layer.register_forward_hook(lambda m, i, o, name=curmodel: callback_function(m, i, o, name))
-            tokenized = given_tokenizer(candidate["text"], return_tensors="pt")
+            tokenized = given_tokenizer(candidate["text"], return_tensors="pt", truncation=True, max_length=512)
             tokenized = tokenized.to(device=device) # send the memory to the accelerator
             # that double asterisk distributes the key values pairs for you
             _ = tst_model(**tokenized)
@@ -77,7 +77,7 @@ def get_semantic_drift(device, tst_model, given_tokenizer, outputs: list[dict], 
         # must also get the embedding of the final layer for our baseline answer
         curmodel = "answer"
         anshook = target_layer.register_forward_hook(lambda m, i, o, name=curmodel: callback_function(m, i, o, name))
-        ans_tokenized = given_tokenizer(ans, return_tensors="pt")
+        ans_tokenized = given_tokenizer(ans, return_tensors="pt", truncation=True, max_length=512)
         ans_tokenized = ans_tokenized.to(device=device)
         _ = tst_model(**ans_tokenized)
         anshook.remove()

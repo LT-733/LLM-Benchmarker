@@ -3,7 +3,7 @@ import requests
 import json
 import os
 import time
-from openrouter import OpenRouter
+from openrouter import OpenRouter, utils
 import dotenv
 try:
     dotenv.load_dotenv("./.env")
@@ -82,6 +82,7 @@ def get_chat_content(question: str="", chosen_models: list=[], API_key: str="") 
                         {"role": "system", "content": "Answer the questions concisely and precisely. You are to use only plain text, do NOT use LaTex."},
                         {"role": "user", "content": user_msg if question=="" else question}
                     ],
+                    retries=utils.RetryConfig(strategy='none', retry_connection_errors=False, backoff=utils.BackoffStrategy(initial_interval=500, max_interval=1000, max_elapsed_time=2000, exponent=1))
                 )
                 model_responses.append({"model": name, "text": curres.choices[0].message.content})
             except Exception as e:
