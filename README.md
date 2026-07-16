@@ -37,8 +37,9 @@ With that, you can enjoy the outputs of your models. You get their MDS clusterin
 You also get a nice heat map which measures the similarity token by token. 
 <img width="1057" height="759" alt="image" src="https://github.com/user-attachments/assets/84470bbe-1d25-42d0-af94-dc9b1323f4ce" />
 
-And a novelty score of each token lined up so that you see how often new stuff are bing spat out.
-<img width="1057" height="759" alt="image" src="https://github.com/user-attachments/assets/feec289a-3f02-4a8f-a75f-cac2f57370f8" />
+And a novelty score of each token lined up so that you see how often new stuff are being spat out.
+<img width="1026" height="728" alt="image" src="https://github.com/user-attachments/assets/28533c5c-26d7-4186-b5f1-a62c430ba527" />
+
 
 In the end is your actual model output and it does support markdown rendering. (This is the response to "How do you spell Cat?")
 <img width="1057" height="375" alt="image" src="https://github.com/user-attachments/assets/f24bbe29-b2a2-436c-8be2-3272bd824802" />
